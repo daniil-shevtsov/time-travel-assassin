@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3 uid="uid://t70cxwa5sds7"]
+
+[ext_resource type="Script" path="res://Game.cs" id="1_6h36u"]
+[ext_resource type="Script" path="res://Player.cs" id="1_cm5m3"]
+[ext_resource type="Script" path="res://Target.cs" id="3_x4x36"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ihbqb"]
+size = Vector2(800, 600)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wwa0t"]
+size = Vector2(200, 100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t4a0e"]
+
+[node name="Root" type="Node2D"]
+script = ExtResource("1_6h36u")
+
+[node name="RoomArea2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RoomArea2D"]
+position = Vector2(400, 300)
+shape = SubResource("RectangleShape2D_ihbqb")
+
+[node name="EntranceArea2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EntranceArea2D"]
+position = Vector2(100, 650)
+shape = SubResource("RectangleShape2D_wwa0t")
+
+[node name="Player" type="StaticBody2D" parent="."]
+position = Vector2(66, 510)
+script = ExtResource("1_cm5m3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("RectangleShape2D_t4a0e")
+
+[node name="Polygon2D" type="Polygon2D" parent="Player"]
+polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+
+[node name="Target" type="StaticBody2D" parent="."]
+position = Vector2(194, 124)
+script = ExtResource("3_x4x36")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Target"]
+shape = SubResource("RectangleShape2D_t4a0e")
+
+[node name="Polygon2D" type="Polygon2D" parent="Target"]
+polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
