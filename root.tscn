@@ -53,6 +53,9 @@ shape = SubResource("RectangleShape2D_t4a0e")
 [node name="Polygon2D" type="Polygon2D" parent="Player"]
 polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
 
+[node name="Hand" type="Marker2D" parent="Player"]
+position = Vector2(0, -24)
+
 [node name="Target" type="StaticBody2D" parent="."]
 position = Vector2(194, 124)
 script = ExtResource("3_x4x36")
