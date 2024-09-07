@@ -26,4 +26,34 @@ public partial class Game : Node2D
 
 		weapon.GlobalPosition = player.hand.GlobalPosition;
 	}
+
+	public override void _Input(InputEvent @event)
+	{
+		if (@event is InputEventMouseMotion eventMouseMotion)
+		{
+			RotateWeapon(eventMouseMotion);
+		}
+	}
+
+	private void RotateWeapon(InputEventMouseMotion eventMouseMotion)
+	{
+		var armLength = 450f - 30f;
+		var sensitivity = 0.75f;
+		var distanceChange = eventMouseMotion.Relative * 0.5f;
+		var playerMouseVector = player.GlobalPosition.DistanceTo(eventMouseMotion.Position);
+		weapon.LookAt(eventMouseMotion.Position);
+		weapon.RotationDegrees += 90f;
+		// if (newDistance <= armLength)
+		// {
+		//     var collision = Gun.MoveAndCollide(distanceChange);
+		//     if (collision != null)
+		//     {
+		//         HandleCollision(collision);
+		//     }
+		//     else
+		//     {
+		//         Gun.GlobalPosition += distanceChange;
+		//     }
+		// }
+	}
 }
