@@ -15,6 +15,10 @@ public partial class Game : Node2D
 
 	private Vector2 lastMousePosition = Vector2.Zero;
 
+	static float hitBase = 100f;
+	static float hitReduction = 10f;
+	private Vector2 hitImpulse = Vector2.Zero;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -41,6 +45,14 @@ public partial class Game : Node2D
 		target.eyeRight.Position = eyeOffset;
 
 		target.GlobalPosition = target.GlobalPosition.MoveToward(player.GlobalPosition, enemySpeed * (float)delta);
+
+		if (hitImpulse > Vector2.Zero)
+		{
+			var amountToMove = hitImpulse * hitReduction * (float)delta;
+			target.GlobalPosition += amountToMove;
+			hitImpulse -= amountToMove;
+			GD.Print($" amountToMove {amountToMove} newPosition {target.GlobalPosition} hitImpulse left {hitImpulse}");
+		}
 	}
 
 	private Vector2 calculateEyeOffset(Vector2 targetPosition, Vector2 enemyPosition, Vector2 enemySize)
@@ -71,7 +83,7 @@ public partial class Game : Node2D
 		var distanceChange = eventMouseMotion.Relative * 0.5f;
 		var playerMouseVector = player.GlobalPosition.DistanceTo(eventMouseMotion.Position);
 		weapon.LookAt(eventMouseMotion.Position);
-		GD.Print($"real rotation mouse={lastMousePosition} hand={player.hand.GlobalPosition} final rotation = {weapon.RotationDegrees}");
+		// GD.Print($"real rotation mouse={lastMousePosition} hand={player.hand.GlobalPosition} final rotation = {weapon.RotationDegrees}");
 
 		// weapon.RotationDegrees += 90f;
 		// if (newDistance <= armLength)
@@ -102,6 +114,11 @@ public partial class Game : Node2D
 		}
 		var targetAngle = -45f + overSwing;
 
+		var maxSwing = 15f - -90f;
+		var swingArc = Mathf.Abs(weapon.RotationDegrees - targetAngle);
+		var swingPercent = Mathf.Min(1f, Mathf.Abs(targetAngle - 45f) / maxSwing);
+		hitImpulse = new Vector2(hitBase, hitBase) * swingPercent;
+		GD.Print($" weapon={weapon.RotationDegrees} target={targetAngle} swingPercent={swingPercent} swingArc={swingArc} hitImpulse={hitImpulse} ");
 
 		var tween = CreateTween();
 		tween.TweenProperty(weapon, new NodePath("rotation_degrees"), targetAngle, 0.05f).SetTrans(Tween.TransitionType.Spring);
