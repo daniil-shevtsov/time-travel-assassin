@@ -8,6 +8,8 @@ public partial class Game : Node2D
 
 	Weapon weapon;
 
+	bool isSwinging = false;
+
 	float playerSpeed = 500;
 
 	// Called when the node enters the scene tree for the first time.
@@ -25,6 +27,11 @@ public partial class Game : Node2D
 		player.MoveAndCollide(inputDir);
 
 		weapon.GlobalPosition = player.hand.GlobalPosition;
+
+		if (Input.IsActionJustReleased("swing"))
+		{
+			SwingWeapon();
+		}
 	}
 
 	public override void _Input(InputEvent @event)
@@ -37,6 +44,10 @@ public partial class Game : Node2D
 
 	private void RotateWeapon(InputEventMouseMotion eventMouseMotion)
 	{
+		if (isSwinging)
+		{
+			return;
+		}
 		var armLength = 450f - 30f;
 		var sensitivity = 0.75f;
 		var distanceChange = eventMouseMotion.Relative * 0.5f;
@@ -55,5 +66,17 @@ public partial class Game : Node2D
 		//         Gun.GlobalPosition += distanceChange;
 		//     }
 		// }
+	}
+
+	private async void SwingWeapon()
+	{
+		isSwinging = true;
+		var targetAngle = 45f;
+		var angleToRotate = targetAngle - weapon.RotationDegrees;
+
+		var tween = CreateTween();
+		tween.TweenProperty(weapon, new NodePath("rotation_degrees"), targetAngle, 0.05f).SetTrans(Tween.TransitionType.Spring);
+		await ToSignal(tween, "finished");
+		isSwinging = false;
 	}
 }
