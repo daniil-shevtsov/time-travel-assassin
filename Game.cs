@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class Game : Node2D
 {
@@ -35,7 +34,20 @@ public partial class Game : Node2D
 			SwingWeapon();
 		}
 
-		target.LookAt(player.GlobalPosition);
+		// target.LookAt(player.GlobalPosition);
+
+		var targetToPlayer = player.GlobalPosition - target.GlobalPosition;
+		var eyeOffset = calculateEyeOffset(player.GlobalPosition, target.GlobalPosition, target.shape.Size);
+		target.eyeLeft.Position = eyeOffset;
+		target.eyeRight.Position = eyeOffset;
+	}
+
+	private Vector2 calculateEyeOffset(Vector2 targetPosition, Vector2 enemyPosition, Vector2 enemySize)
+	{
+		return new Vector2(
+		Mathf.Sign(targetPosition.X - Mathf.Clamp(targetPosition.X, enemyPosition.X - enemySize.X / 2, enemyPosition.X + enemySize.X / 2)),
+		Mathf.Sign(targetPosition.Y - Mathf.Clamp(targetPosition.Y, enemyPosition.Y - enemySize.Y / 2, enemyPosition.Y + enemySize.Y / 2))
+		);
 	}
 
 	public override void _Input(InputEvent @event)
