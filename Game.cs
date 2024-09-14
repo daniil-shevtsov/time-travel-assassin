@@ -76,8 +76,18 @@ public partial class Game : Node2D
 	private async void SwingWeapon()
 	{
 		isSwinging = true;
-		var targetAngle = -45f;
+		var overSwing = 0f;
+		if (weapon.RotationDegrees <= -45f)
+		{
+			overSwing = 25f;
+		}
+		else
+		{
+			overSwing = -25f;
+		}
+		var targetAngle = -45f + overSwing;
 		var angleToRotate = targetAngle - weapon.RotationDegrees;
+
 
 		var tween = CreateTween();
 		tween.TweenProperty(weapon, new NodePath("rotation_degrees"), targetAngle, 0.05f).SetTrans(Tween.TransitionType.Spring);
