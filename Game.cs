@@ -9,7 +9,9 @@ public partial class Game : Node2D
 
 	bool isSwinging = false;
 
-	float playerSpeed = 500;
+	static float playerSpeed = 500f;
+
+	static float enemySpeed = playerSpeed / 4f;
 
 	private Vector2 lastMousePosition = Vector2.Zero;
 
@@ -34,12 +36,11 @@ public partial class Game : Node2D
 			SwingWeapon();
 		}
 
-		// target.LookAt(player.GlobalPosition);
-
-		var targetToPlayer = player.GlobalPosition - target.GlobalPosition;
 		var eyeOffset = calculateEyeOffset(player.GlobalPosition, target.GlobalPosition, target.shape.Size);
 		target.eyeLeft.Position = eyeOffset;
 		target.eyeRight.Position = eyeOffset;
+
+		target.GlobalPosition = target.GlobalPosition.MoveToward(player.GlobalPosition, enemySpeed * (float)delta);
 	}
 
 	private Vector2 calculateEyeOffset(Vector2 targetPosition, Vector2 enemyPosition, Vector2 enemySize)
