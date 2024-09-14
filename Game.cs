@@ -88,7 +88,6 @@ public partial class Game : Node2D
 			overSwing = -25f;
 		}
 		var targetAngle = -45f + overSwing;
-		var angleToRotate = targetAngle - weapon.RotationDegrees;
 
 
 		var tween = CreateTween();
