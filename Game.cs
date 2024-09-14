@@ -118,9 +118,9 @@ public partial class Game : Node2D
 			targetAngle = maxAngle;
 		}
 
-		var maxSwing = 15f - -90f;
+		var maxSwing = maxAngle - minAngle;
 		var swingArc = Mathf.Abs(weapon.RotationDegrees - targetAngle);
-		var swingPercent = Mathf.Min(1f, Mathf.Abs(targetAngle - 45f) / maxSwing);
+		var swingPercent = Mathf.Min(1f, swingArc / maxSwing);
 
 		var hitAmount = hitBase * swingPercent;
 		var hitDirection = Vector2.Right;
