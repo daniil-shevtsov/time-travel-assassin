@@ -12,6 +12,8 @@ public partial class Game : Node2D
 
 	float playerSpeed = 500;
 
+	private Vector2 lastMousePosition = Vector2.Zero;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -44,6 +46,7 @@ public partial class Game : Node2D
 
 	private void RotateWeapon(InputEventMouseMotion eventMouseMotion)
 	{
+		lastMousePosition = eventMouseMotion.Position;
 		if (isSwinging)
 		{
 			return;
@@ -53,7 +56,9 @@ public partial class Game : Node2D
 		var distanceChange = eventMouseMotion.Relative * 0.5f;
 		var playerMouseVector = player.GlobalPosition.DistanceTo(eventMouseMotion.Position);
 		weapon.LookAt(eventMouseMotion.Position);
-		weapon.RotationDegrees += 90f;
+		GD.Print($"real rotation mouse={lastMousePosition} hand={player.hand.GlobalPosition} final rotation = {weapon.RotationDegrees}");
+
+		// weapon.RotationDegrees += 90f;
 		// if (newDistance <= armLength)
 		// {
 		//     var collision = Gun.MoveAndCollide(distanceChange);
@@ -71,12 +76,22 @@ public partial class Game : Node2D
 	private async void SwingWeapon()
 	{
 		isSwinging = true;
-		var targetAngle = 45f;
+		var targetAngle = -45f;
 		var angleToRotate = targetAngle - weapon.RotationDegrees;
 
 		var tween = CreateTween();
 		tween.TweenProperty(weapon, new NodePath("rotation_degrees"), targetAngle, 0.05f).SetTrans(Tween.TransitionType.Spring);
 		await ToSignal(tween, "finished");
+		tween = CreateTween();
+		var lastRotation = weapon.RotationDegrees;
+		weapon.LookAt(lastMousePosition);
+		var lookAtRotation = weapon.RotationDegrees;
+		weapon.RotationDegrees = lastRotation;
+		GD.Print($"mouse={lastMousePosition} hand={player.hand.GlobalPosition} weapon={weapon.GlobalPosition} weaponRotationDegrees={weapon.RotationDegrees} newRotation={lookAtRotation}");
+		tween.TweenProperty(weapon, new NodePath("rotation_degrees"), lookAtRotation, 0.15f).SetTrans(Tween.TransitionType.Spring);
+		await ToSignal(tween, "finished");
+		GD.Print($"mouse={lastMousePosition} hand={player.hand.GlobalPosition} final rotation = {weapon.RotationDegrees}");
+
 		isSwinging = false;
 	}
 }

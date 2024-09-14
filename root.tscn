@@ -14,7 +14,7 @@ size = Vector2(800, 600)
 size = Vector2(200, 100)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dgwhk"]
-size = Vector2(10, 77)
+size = Vector2(77, 10)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t4a0e"]
 size = Vector2(56, 42)
@@ -39,11 +39,12 @@ position = Vector2(97, 481)
 script = ExtResource("2_gfimf")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Weapon"]
-position = Vector2(0, -38.5)
+position = Vector2(36, 1)
 shape = SubResource("RectangleShape2D_dgwhk")
 
 [node name="Sprite2D" type="Sprite2D" parent="Weapon"]
-position = Vector2(-1, -38)
+position = Vector2(36, -3.8147e-06)
+rotation = 1.5708
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("3_1gebr")
 
