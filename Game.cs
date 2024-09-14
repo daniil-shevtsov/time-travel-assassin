@@ -104,20 +104,28 @@ public partial class Game : Node2D
 	{
 		isSwinging = true;
 		var overSwing = 0f;
-		if (weapon.RotationDegrees <= -45f)
+		var targetAngle = 0f;
+		var minAngle = -85f;
+		var maxAngle = 85f;
+
+
+		if (weapon.RotationDegrees >= 0f)
 		{
-			overSwing = 25f;
+			targetAngle = minAngle;
 		}
 		else
 		{
-			overSwing = -25f;
+			targetAngle = maxAngle;
 		}
-		var targetAngle = -45f + overSwing;
 
 		var maxSwing = 15f - -90f;
 		var swingArc = Mathf.Abs(weapon.RotationDegrees - targetAngle);
 		var swingPercent = Mathf.Min(1f, Mathf.Abs(targetAngle - 45f) / maxSwing);
-		hitImpulse = new Vector2(hitBase, hitBase) * swingPercent;
+
+		var hitAmount = hitBase * swingPercent;
+		var hitDirection = Vector2.Right;
+
+		hitImpulse = hitAmount * hitDirection;
 		GD.Print($" weapon={weapon.RotationDegrees} target={targetAngle} swingPercent={swingPercent} swingArc={swingArc} hitImpulse={hitImpulse} ");
 
 		var tween = CreateTween();
