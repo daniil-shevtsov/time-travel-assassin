@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://t70cxwa5sds7"]
+[gd_scene load_steps=12 format=3 uid="uid://t70cxwa5sds7"]
 
 [ext_resource type="Script" path="res://Game.cs" id="1_6h36u"]
 [ext_resource type="Script" path="res://Player.cs" id="1_cm5m3"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dv70vsd6osvny" path="res://assets/sprite/bonk-bat.png" id="3_1gebr"]
 [ext_resource type="Script" path="res://Target.cs" id="3_x4x36"]
 [ext_resource type="Texture2D" uid="uid://du0t6f6cble1v" path="res://assets/sprite/bonk-dog.png" id="4_s7753"]
+[ext_resource type="Texture2D" uid="uid://bac5n0honwvug" path="res://assets/sprite/target.png" id="7_giwjc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ihbqb"]
 size = Vector2(800, 600)
@@ -17,7 +18,7 @@ size = Vector2(200, 100)
 size = Vector2(77, 10)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t4a0e"]
-size = Vector2(56, 42)
+size = Vector2(59, 95)
 
 [node name="Root" type="Node2D"]
 script = ExtResource("1_6h36u")
@@ -49,7 +50,7 @@ scale = Vector2(0.2, 0.2)
 texture = ExtResource("3_1gebr")
 
 [node name="Player" type="StaticBody2D" parent="."]
-position = Vector2(66, 510)
+position = Vector2(65, 510)
 script = ExtResource("1_cm5m3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
@@ -57,18 +58,20 @@ position = Vector2(-2, 9)
 shape = SubResource("RectangleShape2D_t4a0e")
 
 [node name="Hand" type="Marker2D" parent="Player"]
-position = Vector2(29, -28)
+position = Vector2(37, -17)
 
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("4_s7753")
 
 [node name="Target" type="StaticBody2D" parent="."]
-position = Vector2(194, 124)
+position = Vector2(592, 202)
 script = ExtResource("3_x4x36")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Target"]
+position = Vector2(1.5, 1.5)
 shape = SubResource("RectangleShape2D_t4a0e")
 
-[node name="Polygon2D" type="Polygon2D" parent="Target"]
-polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+[node name="Sprite2D" type="Sprite2D" parent="Target"]
+scale = Vector2(-0.15, -0.15)
+texture = ExtResource("7_giwjc")

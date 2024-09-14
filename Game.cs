@@ -34,6 +34,8 @@ public partial class Game : Node2D
 		{
 			SwingWeapon();
 		}
+
+		target.LookAt(player.GlobalPosition);
 	}
 
 	public override void _Input(InputEvent @event)
