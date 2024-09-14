@@ -122,11 +122,18 @@ public partial class Game : Node2D
 		var swingArc = Mathf.Abs(weapon.RotationDegrees - targetAngle);
 		var swingPercent = Mathf.Min(1f, swingArc / maxSwing);
 
-		var hitAmount = hitBase * swingPercent;
+		var distance = player.hand.GlobalPosition.DistanceTo(target.GlobalPosition);
+		var weaponRange = weapon.shape.Size.X;
+		var distanceFactor = Mathf.Clamp(1f - (distance / weaponRange), 0f, 1f);
+		var hitAmount = hitBase * swingPercent * (1f + distanceFactor * 2f);
 		var hitDirection = Vector2.Right;
 
-		hitImpulse = hitAmount * hitDirection;
-		GD.Print($" weapon={weapon.RotationDegrees} target={targetAngle} swingPercent={swingPercent} swingArc={swingArc} hitImpulse={hitImpulse} ");
+		if (distance <= weaponRange)
+		{
+			hitImpulse = hitAmount * hitDirection;
+			GD.Print($"HIT base {hitBase} * swing percent {swingPercent} * distance factor {distanceFactor} = amount {hitAmount} * direction {hitDirection} = final {hitImpulse}");
+
+		}
 
 		var tween = CreateTween();
 		tween.TweenProperty(weapon, new NodePath("rotation_degrees"), targetAngle, 0.05f).SetTrans(Tween.TransitionType.Spring);
