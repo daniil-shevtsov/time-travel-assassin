@@ -83,6 +83,8 @@ public partial class Game : Node2D
 		var distanceChange = eventMouseMotion.Relative * 0.5f;
 		var playerMouseVector = player.GlobalPosition.DistanceTo(eventMouseMotion.Position);
 		weapon.LookAt(eventMouseMotion.Position);
+
+		weapon.RotationDegrees = Mathf.Clamp(weapon.RotationDegrees, -90f + 2f, 90f - 2f);
 		// GD.Print($"real rotation mouse={lastMousePosition} hand={player.hand.GlobalPosition} final rotation = {weapon.RotationDegrees}");
 
 		// weapon.RotationDegrees += 90f;
@@ -142,11 +144,20 @@ public partial class Game : Node2D
 		var lastRotation = weapon.RotationDegrees;
 		weapon.LookAt(lastMousePosition);
 		var lookAtRotation = weapon.RotationDegrees;
+
+		if (lookAtRotation < -90f)
+		{
+			lookAtRotation += 180f;
+		}
+		else if (lookAtRotation > 90f)
+		{
+			lookAtRotation -= 180f;
+		}
 		weapon.RotationDegrees = lastRotation;
-		GD.Print($"mouse={lastMousePosition} hand={player.hand.GlobalPosition} weapon={weapon.GlobalPosition} weaponRotationDegrees={weapon.RotationDegrees} newRotation={lookAtRotation}");
+		GD.Print($"1 mouse={lastMousePosition} hand={player.hand.GlobalPosition} weapon={weapon.GlobalPosition} weaponRotationDegrees={weapon.RotationDegrees} newRotation={lookAtRotation}");
 		tween.TweenProperty(weapon, new NodePath("rotation_degrees"), lookAtRotation, 0.15f).SetTrans(Tween.TransitionType.Spring);
 		await ToSignal(tween, "finished");
-		GD.Print($"mouse={lastMousePosition} hand={player.hand.GlobalPosition} final rotation = {weapon.RotationDegrees}");
+		GD.Print($"2 mouse={lastMousePosition} hand={player.hand.GlobalPosition} final rotation = {weapon.RotationDegrees}");
 
 		isSwinging = false;
 	}
