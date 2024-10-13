@@ -7,7 +7,10 @@ public partial class Game : Node2D
 
 	Weapon weapon;
 
+	ColorRect shaderOverlay;
+
 	bool isSwinging = false;
+	bool isTimeStopped = false;
 
 	static float playerSpeed = 500f;
 
@@ -25,11 +28,18 @@ public partial class Game : Node2D
 		player = GetNode<Player>("Player");
 		target = GetNode<Target>("Target");
 		weapon = GetNode<Weapon>("Weapon");
+		shaderOverlay = (ColorRect)FindChild("ScreenShaderOverlay");
+		shaderOverlay.Visible = false;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if (Input.IsActionJustReleased("toggle_time"))
+		{
+			ToggleTime();
+		}
+
 		Vector2 inputDir = Input.GetVector("left", "right", "forward", "backward").Normalized() * playerSpeed * (float)delta;
 		player.MoveAndCollide(inputDir);
 
@@ -52,6 +62,20 @@ public partial class Game : Node2D
 			target.GlobalPosition += amountToMove;
 			hitImpulse -= amountToMove;
 			GD.Print($" amountToMove {amountToMove} newPosition {target.GlobalPosition} hitImpulse left {hitImpulse}");
+		}
+	}
+
+	private void ToggleTime()
+	{
+		isTimeStopped = !isTimeStopped;
+		shaderOverlay.Visible = isTimeStopped;
+		if (isTimeStopped)
+		{
+
+		}
+		else
+		{
+
 		}
 	}
 
