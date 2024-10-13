@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://t70cxwa5sds7"]
+[gd_scene load_steps=18 format=3 uid="uid://t70cxwa5sds7"]
 
 [ext_resource type="Script" path="res://Game.cs" id="1_6h36u"]
 [ext_resource type="Script" path="res://Player.cs" id="1_cm5m3"]
@@ -11,6 +11,12 @@
 [ext_resource type="Texture2D" uid="uid://bc7p0sh167pav" path="res://assets/sprite/enemy_eyeball.png" id="9_wq8ms"]
 [ext_resource type="Texture2D" uid="uid://2o2cg6pd7osv" path="res://assets/sprite/enemy_eye_right.png" id="10_nrol7"]
 [ext_resource type="Texture2D" uid="uid://bi63wkyo3beo3" path="res://assets/sprite/enemy_eye_left.png" id="11_q0yi7"]
+[ext_resource type="Shader" path="res://test.gdshader" id="12_l4s1a"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_61ccb"]
+shader = ExtResource("12_l4s1a")
+shader_parameter/size_x = 0.008
+shader_parameter/size_y = 0.008
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ihbqb"]
 size = Vector2(800, 600)
@@ -26,6 +32,21 @@ size = Vector2(59, 95)
 
 [node name="Root" type="Node2D"]
 script = ExtResource("1_6h36u")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(410, 182)
+editor_draw_limits = true
+editor_draw_drag_margin = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Camera2D"]
+
+[node name="ColorRect" type="ColorRect" parent="Camera2D/CanvasLayer"]
+material = SubResource("ShaderMaterial_61ccb")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="RoomArea2D" type="Area2D" parent="."]
 
