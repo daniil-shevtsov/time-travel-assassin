@@ -50,6 +50,16 @@ public partial class Game : Node2D
 			SwingWeapon();
 		}
 
+		if (!isTimeStopped)
+		{
+			UpdateTarget((float)delta);
+		}
+
+
+	}
+
+	private void UpdateTarget(float delta)
+	{
 		var eyeOffset = calculateEyeOffset(player.GlobalPosition, target.GlobalPosition, target.shape.Size);
 		target.eyeLeft.Position = eyeOffset;
 		target.eyeRight.Position = eyeOffset;
