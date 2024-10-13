@@ -15,8 +15,8 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_61ccb"]
 shader = ExtResource("12_l4s1a")
-shader_parameter/size_x = 0.008
-shader_parameter/size_y = 0.008
+shader_parameter/projector_power = 0.119
+shader_parameter/vignette_param = 20.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ihbqb"]
 size = Vector2(800, 600)
