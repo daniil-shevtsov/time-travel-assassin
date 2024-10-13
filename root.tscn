@@ -1,7 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://t70cxwa5sds7"]
+[gd_scene load_steps=16 format=3 uid="uid://t70cxwa5sds7"]
 
 [ext_resource type="Script" path="res://Game.cs" id="1_6h36u"]
 [ext_resource type="Script" path="res://Player.cs" id="1_cm5m3"]
+[ext_resource type="Texture2D" uid="uid://dpdl5sscd7fg2" path="res://assets/sprite/parq.jpg" id="2_766pq"]
 [ext_resource type="Script" path="res://Weapon.cs" id="2_gfimf"]
 [ext_resource type="Texture2D" uid="uid://dv70vsd6osvny" path="res://assets/sprite/bonk-bat.png" id="3_1gebr"]
 [ext_resource type="Script" path="res://Target.cs" id="3_x4x36"]
@@ -31,6 +32,15 @@ script = ExtResource("1_6h36u")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RoomArea2D"]
 position = Vector2(400, 300)
 shape = SubResource("RectangleShape2D_ihbqb")
+
+[node name="Sprite2D" type="Polygon2D" parent="RoomArea2D"]
+texture_repeat = 2
+position = Vector2(1984, 1982)
+texture = ExtResource("2_766pq")
+texture_scale = Vector2(3.07, 3.07)
+polygon = PackedVector2Array(-1183, -1377, -1997, -1379, -2000, -2000, -1185, -1985)
+uv = PackedVector2Array(4000, 4000, 0, 4000, 0, 0, 4000, 0)
+polygons = [PackedInt32Array(0, 1, 2, 3)]
 
 [node name="EntranceArea2D" type="Area2D" parent="."]
 
